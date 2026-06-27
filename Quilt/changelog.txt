@@ -1,0 +1,53 @@
+v3.1.41
+
+- Adds enchantment glint to Geckolib Armors.
+- Adds enchantment glint to Geckolib Items.
+
+v3.1.40
+
+- Closes #365
+
+v3.1.39
+
+- Closes #345
+- Adds priority to HumanoidArmorLayer mixin, help resolve crash with Cosmetic Armor 
+
+v3.1.38
+
+- Fixes Access Widener
+
+v3.1.37
+
+- Updates Geckolib default armor with new Gecko armor made by VoutVouniern
+- Fixes issues Glow Layer issue.
+
+v3.1.36
+
+- MClib updated, Fixed -() group not working - Hiroku https://github.com/fadookie/particleman/pull/7
+- Fixes crash with Layer Example animation location call.
+
+v3.1.35
+
+- Fixes crashes due to getUniqueID
+
+v3.1.34
+
+- Deprecate getPackedOverlay for getOverlay, move to non-static to allow Overriding.
+- Move example resources to constants
+
+v3.1.33
+
+- Fixes broken rotation on cubes
+
+v3.1.32
+
+- Adds back getTexture fix.
+
+v3.1.31
+
+- Updates Core with Java 17 changes from pervious PR.
+- Fixes Vanilla Armor Crash with Extended Render.
+- Fixes keyframe issue, fixing animations not playing.
+- Fixes broken movement check for entities. 
+- Fixes broken rotations on child bones.
+- Updates Example block entities to EDefaultLoopTypes
