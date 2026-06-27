@@ -24,10 +24,26 @@ If a change is **not** in this file, it must appear in `CHANGELOG.md` tagged `[O
 
 ## Refined branch: `1.18` (MC 1.18.2)
 
-_No backports applied yet — population begins with the first Refined release._
+### a01f17b — Fix `math.pi` evaluating to 0
+- **Upstream author:** @Tslat
+- **Upstream branch:** `1.20.1`
+- **Upstream URL:** https://github.com/bernie-g/geckolib/commit/a01f17bd2d6
+- **Refined commit:** `1f42531` on `1.18`
+- **Files touched:** `Forge/core/src/main/java/software/bernie/geckolib3/core/molang/MolangParser.java`, `Fabric/core/.../MolangParser.java`, `Quilt/core/.../MolangParser.java`
+- **Portability rationale:** `MolangParser` constructor shape is identical between geckolib3 (1.18.2) and geckolib4 (1.20.1+). The `register(new Variable(...))` call and `remap(...)` mechanism are unchanged across the architectural rewrite. One-line addition, zero risk.
+- **Behaviour delta:** Animations referencing `math.pi` (and the `pi` alias that remaps to `math.pi`) now evaluate to `Math.PI` instead of `0.0`. Affected animations: any using `math.pi` for rotation/scale math. Previously broken — now correct.
+- **Compat impact:** None.
 
 ---
 
 ## Refined branch: `1.19` (MC 1.19.2)
 
-_No backports applied yet — population begins with the first Refined release._
+### a01f17b — Fix `math.pi` evaluating to 0
+- **Upstream author:** @Tslat
+- **Upstream branch:** `1.20.1`
+- **Upstream URL:** https://github.com/bernie-g/geckolib/commit/a01f17bd2d6
+- **Refined commit:** _populated at tag time_ on `1.19`
+- **Files touched:** `Forge/core/.../MolangParser.java`, `Fabric/core/.../MolangParser.java`, `Quilt/core/.../MolangParser.java`
+- **Portability rationale:** Same as `1.18` entry — `MolangParser` shape is identical.
+- **Behaviour delta:** Same as `1.18` — `math.pi` and `pi` now evaluate to `Math.PI`.
+- **Compat impact:** None.
