@@ -464,7 +464,15 @@ public class AnimationController<T extends IAnimatable> {
 					}
 
 					BoneSnapshot initialSnapshot = first.get().getInitialSnapshot();
-					assert boneSnapshot != null : "Bone snapshot was null";
+					// [REFINED] Lazy-init boneSnapshot when missing. Upstream's `assert` is a
+					// no-op under production JVMs (-ea disabled), causing an NPE on every
+					// dereference below. Initialising from the bone's known-good initial
+					// snapshot and caching it preserves observed behaviour on subsequent ticks.
+					// See CHANGELOG.md `### Optimised` for v1.18.2-3.0.57+refined.1.
+					if (boneSnapshot == null) {
+						boneSnapshot = new BoneSnapshot(initialSnapshot);
+						this.boneSnapshots.put(boneAnimation.boneName, boneSnapshot);
+					}
 
 					VectorKeyFrameList<KeyFrame<IValue>> rotationKeyFrames = boneAnimation.rotationKeyFrames;
 					VectorKeyFrameList<KeyFrame<IValue>> positionKeyFrames = boneAnimation.positionKeyFrames;
