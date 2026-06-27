@@ -419,6 +419,13 @@ public class AnimationController<T extends IAnimatable> {
 		if (this.justStartedTransition && (this.shouldResetTick || this.justStopped)) {
 			this.justStopped = false;
 			adjustedTick = adjustTick(tick);
+
+			// [BACKPORT a05782f] Guard against a forced animation set before transition
+			// completes — leaves animationState in a state where currentAnimation is null
+			// but the controller thinks it's running, causing a crash on next tick.
+			// Pulled from bernie-g/geckolib@1.20.1 (by @Tslat).
+			if (this.currentAnimation == null)
+				this.animationState = AnimationState.Transitioning;
 		}
 		else if (this.currentAnimation == null && this.animationQueue.size() != 0) {
 			this.shouldResetTick = true;
