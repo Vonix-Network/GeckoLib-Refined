@@ -464,7 +464,14 @@ public class AnimationController<T extends IAnimatable> {
 					}
 
 					BoneSnapshot initialSnapshot = first.get().getInitialSnapshot();
-					assert boneSnapshot != null : "Bone snapshot was null";
+					// [REFINED] Lazily initialize boneSnapshot if absent. Upstream `assert` only
+					// triggered in dev; in production, a null snapshot crashed with NPE at the
+					// rotationValueX read below. Initializing from the bone's initial snapshot
+					// and caching it preserves observed behaviour (delta is zero on first tick).
+					if (boneSnapshot == null) {
+						boneSnapshot = new BoneSnapshot(initialSnapshot);
+						this.boneSnapshots.put(boneAnimation.boneName, boneSnapshot);
+					}
 
 					VectorKeyFrameList<KeyFrame<IValue>> rotationKeyFrames = boneAnimation.rotationKeyFrames;
 					VectorKeyFrameList<KeyFrame<IValue>> positionKeyFrames = boneAnimation.positionKeyFrames;
