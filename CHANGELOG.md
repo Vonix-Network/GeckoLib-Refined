@@ -20,6 +20,7 @@ First Refined release for the abandoned `1.18` upstream branch. Base: `bernie-g/
 
 ### Backported
 - **`a01f17b` — `Fix math.pi evaluating to 0` (by @Tslat).** Pulled from `bernie-g/geckolib@1.20.1`. `MolangParser` was remapping `pi` → `math.pi` but never registering `math.pi` as a `Variable`, so animations using `math.pi` evaluated it to 0 at runtime (subtle: easy to miss in dev, animations look "almost right"). Applied to Forge, Fabric, Quilt. Rationale: the variable registration shape is identical between geckolib3 and geckolib4 `MolangParser`.
+- **`a05782f` — `Hopefully fix crash with setting an animation forcefully before it transitions` (by @Tslat).** Pulled from `bernie-g/geckolib@1.20.1`. When code forces a new animation via `setAnimation`/builder while the controller is mid-transition, `currentAnimation` can be null when the next process tick runs, leaving the state machine inconsistent and crashing. The fix re-asserts the transition state if `currentAnimation == null` after the just-started-transition block. Applied to Forge, Fabric, Quilt at `AnimationController.process` line 419. Rationale: the `justStartedTransition` + `shouldResetTick` + `justStopped` state machine is byte-identical between geckolib3 and the 1.20.1 4.x base — same pattern, same fix shape.
 
 ### Build / CI
 - GitHub Actions matrix build added for Forge / Fabric / Quilt on PR; release-on-tag publishes artifacts.
