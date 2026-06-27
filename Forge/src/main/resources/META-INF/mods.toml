@@ -1,16 +1,19 @@
 modLoader="javafml"
 loaderVersion="[40,)"
-issueTrackerURL="https://github.com/bernie-g/geckolib/issues"
+issueTrackerURL="https://github.com/Vonix-Network/GeckoLib-Refined/issues"
 license="MIT"
 [[mods]]
 modId="geckolib3"
 version="${file.jarVersion}" 
-displayName="GeckoLib"
+displayName="GeckoLib (Refined)"
 logoFile="geckolib.png" 
-credits="Gecko, Eliot, AzureDoom, DerToaster" 
-authors="Gecko, Eliot, AzureDoom, Chappie, DerToaster"
+credits="Gecko, Eliot, AzureDoom, DerToaster, Tslat (upstream); Vonix Network (Refined fork)" 
+authors="Gecko, Eliot, AzureDoom, Chappie, DerToaster, Tslat; Vonix Network (Refined fork maintainer)"
+displayURL="https://github.com/Vonix-Network/GeckoLib-Refined"
 description='''
 GeckoLib is an animation engine for Minecraft Mods, with support for complex 3D keyframe-based animations, 30+ easings, concurrent animation support, sound and particle keyframes, event keyframes, and more.
+
+This is the Refined community-maintenance fork for the abandoned 1.18.2 branch. Drop-in compatible with all geckolib3 mods (same modid, same package, same API). See https://github.com/Vonix-Network/GeckoLib-Refined for changelog and provenance.
 '''
 [[dependencies.geckolib3]]
     modId="forge"
