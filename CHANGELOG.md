@@ -3,34 +3,29 @@
 All notable changes to GeckoLib-Refined are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [SemVer](https://semver.org/) where applicable.
 
-Versioning convention: `<upstream-version>+refined.<N>` — e.g. `3.0.57+refined.1` is upstream `3.0.57` plus Refined patch revision 1.
+Versioning convention: `<upstream-version>+refined.<N>` — e.g. `3.1.40+refined.1` is upstream `3.1.40` plus Refined patch revision 1.
 
 Every entry under `### Backported` includes the upstream commit SHA. Every entry under `### Optimised` is a Refined-original change with rationale.
 
 ---
 
-## [Unreleased]
+## [1.19.2-3.1.40+refined.1] — 2026-06-27 — MC 1.19.2
 
-### Branches in flight
-- `1.18` — initial Refined cut against upstream `bernie-g/geckolib@1.18` HEAD (`4533673`)
-- `1.19` — initial Refined cut against upstream `bernie-g/geckolib@1.19` HEAD (`6b17247`)
+First Refined release for the abandoned `1.19` upstream branch. Base: `bernie-g/geckolib@6b17247`. Forge `3.1.40`, Fabric `3.1.40`, Quilt `3.1.41`.
+
+### Optimised
+- **`[OPTIMIZED]` `AnimationController.process`: lazy-init `boneSnapshot` instead of relying on a production-disabled `assert`.** Upstream's `assert boneSnapshot != null` (line 467) is a no-op under any JVM not started with `-ea`. The downstream field reads NPE with `Cannot read field "rotationValueX" because "boneSnapshot" is null`. Refined initialises a fresh `BoneSnapshot` from the bone's `getInitialSnapshot()` and caches it in `this.boneSnapshots` so subsequent ticks reuse it. Preserves observed behaviour; only changes the null path. Applied to Forge, Fabric, Quilt. Same bug class as 1.18 — affects any geckolib3 entity whose first render races bone snapshot population.
+
+### Backported
+- **`a01f17b` — `Fix math.pi evaluating to 0` (by @Tslat).** Pulled from `bernie-g/geckolib@1.20.1`. `MolangParser` was remapping `pi` → `math.pi` but never registering `math.pi` as a `Variable`, so animations using `math.pi` evaluated to 0 at runtime. Applied to Forge, Fabric, Quilt. Rationale: `MolangParser` registration shape identical between 1.19 (geckolib3) and 1.20.1 (geckolib4).
+
+### Build / CI
+- GitHub Actions matrix build added for Forge / Fabric / Quilt on PR; release-on-tag publishes artifacts.
 
 ---
 
-<!--
-Template for future releases:
+## [Unreleased]
 
-## [3.0.57+refined.1] - YYYY-MM-DD — MC 1.18.2 Forge
-
-### Fixed
-- One-line fix description, referencing #issue or crash signature.
-
-### Backported
-- `<upstream-sha>` — `<upstream-subject>` (by @upstream-author). Pulled from `bernie-g/geckolib@1.20.1`. Rationale: applies cleanly to geckolib3 because [reason].
-
-### Optimised
-- `[OPTIMIZED]` <subject>. Rationale: [why this is safe / measured impact / what it replaces].
-
-### Build / CI
-- Tooling changes that don't ship in the jar.
--->
+### In flight
+- Deeper backport sweep from `bernie-g/geckolib@1.20.1` and `1.21.1` (target: `refined.2`)
+- Industry-grade polish pass: executor lifecycle audit, SLF4J marker, concurrent-map review

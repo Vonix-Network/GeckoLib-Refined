@@ -42,6 +42,9 @@ public class MolangParser extends MathBuilder {
 		// Replace radian based sin and cos with degree-based functions
 		this.functions.put("cos", CosDegrees.class);
 		this.functions.put("sin", SinDegrees.class);
+		// [BACKPORT a01f17b] math.pi was remapped but never registered as a variable,
+		// so it evaluated to 0 at runtime. Register it explicitly.
+		register(new Variable("math.pi", Math.PI));
 
 		remap("abs", "math.abs");
 		remap("acos", "math.acos");
